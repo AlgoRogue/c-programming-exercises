@@ -1,0 +1,27 @@
+var NAVTREEINDEX0 =
+{
+"index.html":[],
+"index.html":[0],
+"index.html#autotoc_md13":[0,0],
+"index.html#autotoc_md14":[0,1],
+"index.html#autotoc_md15":[0,2],
+"index.html#autotoc_md16":[0,3],
+"index.html#autotoc_md17":[0,3,0],
+"index.html#autotoc_md18":[0,3,1],
+"index.html#autotoc_md19":[0,3,2],
+"index.html#autotoc_md20":[0,4],
+"index.html#autotoc_md21":[0,5],
+"index.html#autotoc_md22":[0,6],
+"index.html#autotoc_md23":[0,7],
+"index.html#autotoc_md24":[0,8],
+"index.html#autotoc_md25":[0,9],
+"index.html#autotoc_md26":[0,10],
+"md_problems_21__basics_201__calculator.html":[1],
+"md_problems_21__basics_201__calculator.html#autotoc_md10":[1,4],
+"md_problems_21__basics_201__calculator.html#autotoc_md11":[1,5],
+"md_problems_21__basics_201__calculator.html#autotoc_md6":[1,0],
+"md_problems_21__basics_201__calculator.html#autotoc_md7":[1,1],
+"md_problems_21__basics_201__calculator.html#autotoc_md8":[1,2],
+"md_problems_21__basics_201__calculator.html#autotoc_md9":[1,3],
+"pages.html":[]
+};
