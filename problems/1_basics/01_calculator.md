@@ -1,52 +1,61 @@
-# Basic Calculator
+# Temel Hesap Makinesi
 
-## Problem Description
-Create a simple calculator program that follows professional software development standards. The calculator should perform basic arithmetic operations while maintaining clean code structure and proper error handling.
+## Problem Tanımı
 
-### Operations
-- Addition (+)
-- Subtraction (-)
-- Multiplication (*)
-- Division (/)
+Temel aritmetik işlemler yapabilen, komut satırından kullanılan etkileşimli bir
+hesap makinesi geliştirin. Program, kullanıcının her işlemden veya düzeltilebilir
+bir girdi hatasından sonra programı yeniden başlatmasına gerek kalmadan birden
+fazla hesaplama yapabilmesini sağlamalıdır.
 
-## Requirements
+## Bu Problem Neden Yapılıyor?
 
-### Core Features
-1. Accept two numbers and an operation from user
-2. Perform the calculation
-3. Display the result
-4. Ask if user wants to continue
-5. Handle errors (division by zero, invalid inputs)
+Bu alıştırma; kullanıcı girdisi okuma, karar verme, aritmetik işlemler yapma,
+işlemleri tekrarlama ve geçersiz verileri ele alma gibi temel C programlama
+becerilerini küçük bir programda bir araya getirir. Ayrıca basit bir programın
+bile kullanıcı hata yaptığında öngörülebilir davranması gerektiğini gösterir.
 
-### Project Structure
+## Desteklenen İşlemler
+
+- Toplama (`+`)
+- Çıkarma (`-`)
+- Çarpma (`*`)
+- Bölme (`/`)
+
+## Beklenen Davranışlar
+
+1. Kullanıcıdan iki sayısal değer ve desteklenen bir aritmetik işlem alınmalıdır.
+2. Toplama, çıkarma, çarpma ve bölme işlemleri yapılabilmelidir.
+3. İşlemin sonucu anlaşılır biçimde gösterilmelidir.
+4. Kullanıcı yeni hesaplamalar yapabilmeli veya programdan çıkmayı seçebilmelidir.
+5. Geçersiz sayısal girdiler ve desteklenmeyen işlemler fark edilmeli, bu
+   durumlarda yanıltıcı bir sonuç gösterilmemelidir.
+6. Sıfıra bölme engellenmeli ve hata anlaşılır biçimde bildirilmelidir.
+7. Program, düzeltilebilir girdi ve hesaplama hatalarından sonra kullanılmaya
+   devam edilebilmelidir.
+
+Etkileşim tasarımı, ekranda kullanılacak ifadeler, programın iç yapısı,
+uygulama programlama arayüzleri (API), sayısal veri gösterimi ve test araçları
+bilinçli olarak geliştiricinin kararına bırakılmıştır.
+
+## Örnek Etkileşim
+
+Aşağıdaki akış yalnızca olası bir etkileşim örneğidir. Programın aynı
+ifadeleri veya ekran düzenini kullanması gerekmez.
+
+```text
+Birinci sayıyı girin: 10
+İşlemi girin (+, -, *, /): +
+İkinci sayıyı girin: 5
+Sonuç: 10 + 5 = 15
+
+Devam etmek istiyor musunuz? (e/h): h
 ```
-01_calculator/
-├── include/        # Header files
-├── src/           # Source files
-├── tests/         # Test files
-├── Makefile
-└── README.md
-```
 
-### Technical Guidelines
-- Write clear and modular code
-- Implement proper error handling
-- Include basic unit tests
-- Document your code with comments
+## Değerlendirme Ölçütleri
 
-## Example Usage
-```
-Enter first number: 10
-Enter operation (+, -, *, /): +
-Enter second number: 5
-Result: 10 + 5 = 15
-
-Continue? (y/n): n
-```
-
-## Evaluation
-- Code works correctly
-- Follows project structure
-- Includes error handling
-- Has basic documentation
-- Contains unit tests
+- Desteklenen dört işlem, farklı girdilerle doğru sonuçlar üretmelidir.
+- Geçersiz girdiler ve sıfıra bölme, tanımsız veya yanıltıcı davranışa yol
+  açmadan ele alınmalıdır.
+- Kullanıcı art arda hesaplamalar yapabilmeli ve istediğinde programdan
+  çıkabilmelidir.
+- Çözüm, deponun belgelendirme, test ve derleme standartlarını karşılamalıdır.

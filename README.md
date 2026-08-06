@@ -1,145 +1,169 @@
-# 🎯 C Programming Exercises
+# 🎯 C Programlama Alıştırmaları
 
-This repository is designed to demonstrate professional software development practices while learning C programming. Each problem, regardless of its complexity, is treated as a real-world project following industry standards.
+Bu depo, C programlama dilini öğrenirken profesyonel yazılım geliştirme
+uygulamalarını deneyimlemek için oluşturulmuştur. Her problem, karmaşıklık
+düzeyinden bağımsız olarak, gerçek bir yazılım projesi ciddiyetiyle ele alınır.
 
-## 🌟 Repository Philosophy
-- Every exercise, no matter how simple, follows professional software development standards
-- Focus on building maintainable, documented, and tested code
-- Learn both programming concepts and software engineering best practices
+## 🌟 Depo Yaklaşımı
 
-## 📂 Repository Structure
+- Her alıştırmada profesyonel yazılım geliştirme standartları uygulanır.
+- Bakımı kolay, belgelenmiş ve test edilmiş kod yazmaya odaklanılır.
+- Programlama kavramları ile yazılım mühendisliği uygulamaları birlikte öğrenilir.
+- Problem tanımları, ne yapılması gerektiğini ve bunun neden değerli
+  olduğunu açıklar.
+- Uygulamanın nasıl geliştirileceği, geliştiricinin kararına ve
+  yaratıcılığına bırakılır.
 
-```
+## 📂 Depo Yapısı
+
+```text
 c-programming-exercises/
-├── problems/          # Exercise descriptions and requirements
-│   ├── basics/       # Core C programming concepts
-│   ├── intermediate/ # System programming exercises
-│   └── advanced/     # Network and advanced system programming
-└── solutions/         # Exercise solutions with full implementations
-    ├── basics/       # Solutions for basic exercises
-    ├── intermediate/ # Solutions for system programming
-    └── advanced/     # Solutions for advanced topics
+├── problems/               # Problem tanımları ve gereksinimler
+│   ├── 1_basics/           # Temel C programlama kavramları
+│   ├── 2_intermediate/     # Sistem programlamaya giriş
+│   └── 3_advanced/         # Ağ ve ileri sistem programlama
+└── solutions/              # Problemlerin gerçekleştirilmiş çözümleri
+    ├── 1_basics/           # Temel problemlerin çözümleri
+    ├── 2_intermediate/     # Orta düzey problemlerin çözümleri
+    └── 3_advanced/         # İleri düzey problemlerin çözümleri
 ```
 
-## 🏗️ Professional Standards (Applied to ALL projects)
+Numaralandırılmış zorluk klasörleri, önerilen öğrenme sırasını gösterir.
+Her klasörün içindeki alıştırmalar da numaralandırılır. Aynı zorluk
+düzeyinde yer alan problemler arasında da kademeli bir karmaşıklık artışı
+olabilir.
 
-Each project, regardless of difficulty, implements:
+## 🏗️ Profesyonel Standartlar
 
-1. **📚 Documentation**
-   - Comprehensive Doxygen documentation (maintained in `doxygen-docs` branch)
-   - Clear function and module descriptions
-   - Usage examples and guides
-   - Online documentation via GitHub Pages
+Zorluk düzeyinden bağımsız olarak her çözümün aşağıdaki nitelikleri
+göstermesi beklenir:
 
-2. **🔧 Code Organization**
-   - Modular design with header files
-   - Clear separation of concerns
-   - Consistent coding style
+1. **📚 Belgelendirme**
+   - Kapsamlı Doxygen belgeleri
+   - Anlaşılır fonksiyon ve modül açıklamaları
+   - Kullanım örnekleri ve rehberler
+   - `main` dalında tutulan belge kaynakları
+   - `doxygen-docs` dalında yayımlanan HTML belgeleri
+   - GitHub Pages üzerinden çevrim içi belgeler (planlanıyor)
 
-3. **🧪 Testing**
-   - Unit tests for all functions
-   - Test automation
-   - Edge case handling
+2. **🔧 Kod Düzeni**
+   - Başlık dosyaları (header files) kullanan modüler bir tasarım
+   - Sorumlulukların anlaşılır biçimde ayrılması
+   - Tutarlı bir kodlama biçimi
 
-4. **⚙️ Build System**
-   - Makefile for compilation and testing
-   - Clear build instructions
-   - Cross-platform compatibility
+3. **🧪 Test**
+   - Seçilen tasarıma uygun otomatik testler
+   - Testlerin tek komutla çalıştırılabilmesi
+   - Sınır durumlarının (edge cases) ele alınması
 
-5. **📝 Version Control**
-   - Main branch for code
-   - Doxygen-docs branch for documentation
-   - Meaningful commit messages
-   - Feature branches for development
+4. **⚙️ Derleme Sistemi**
+   - Derleme ve test işlemleri için Makefile
+   - Anlaşılır derleme talimatları
+   - Farklı platformlarla uyumluluk
 
-## 📊 Difficulty Levels
+5. **📝 Sürüm Kontrolü**
+   - Kod için `main` dalı
+   - Üretilmiş Doxygen HTML belgeleri için `doxygen-docs` dalı
+   - Yapılan değişikliği açıklayan değişiklik kaydı (commit) mesajları
+   - Geliştirme sırasında özellik dallarının (feature branches) kullanılması
 
-### 🌱 Basics (Core C Programming)
-- Focus on fundamental C concepts
-- Each problem solved with full professional standards
-- Examples:
-  - Calculator with modular design
-  - Temperature converter with complete testing
-  - Word counter with proper memory management
+## 📊 Zorluk Düzeyleri
 
-### 🌿 Intermediate (System Programming)
-- System programming concepts
-- File operations and memory management
-- Data structures implementations
-- Examples:
-  - Phone directory with file handling
-  - Database implementation
-  - Custom data structures
+### 🌱 Temel — C Programlamanın Temelleri
 
-### 🌳 Advanced (Network Programming)
-- Socket programming
-- Multi-threading
-- Inter-process communication
-- Examples:
-  - Chat application
-  - Web server
-  - FTP client
+- Temel C kavramlarına odaklanır.
+- Her problem, depo standartlarına uygun tam bir proje olarak ele alınır.
+- Örnek konular:
+  - Modüler hesap makinesi
+  - Testleri bulunan sıcaklık dönüştürücü
+  - Bellek yönetimini dikkate alan kelime sayacı
 
-## 📁 Project Structure
+### 🌿 Orta — Sistem Programlama
 
-Each project maintains this professional structure:
-```
-project_name/
-├── include/          # Header files (.h)
-│   └── project.h
-├── src/             # Source files (.c)
-│   └── main.c
-├── tests/           # Test files
-│   └── test_main.c
-├── Makefile         # Build automation
-└── README.md        # Project details
-```
+- Sistem programlama kavramlarına odaklanır.
+- Dosya işlemleri, bellek yönetimi ve veri yapılarını kapsar.
+- Örnek konular:
+  - Dosya işlemleri kullanan telefon rehberi
+  - Basit bir veri tabanı gerçekleştirimi
+  - Özel veri yapıları
 
-## 🚀 Getting Started
+### 🌳 İleri — Ağ Programlama
 
-1. Clone the repository:
-```bash
-git clone https://github.com/AlgoRogue/c-programming-exercises.git
+- Soket programlama
+- Çok iş parçacıklı programlama (multithreading)
+- Süreçler arası iletişim (inter-process communication)
+- Örnek konular:
+  - Sohbet uygulaması
+  - Web sunucusu
+  - FTP istemcisi
+
+## 📁 Çözümlerin Konumu
+
+Her çözüm, ait olduğu problemin numaralandırılmış yolunu takip eder.
+Örneğin:
+
+```text
+problems/1_basics/01_calculator.md
+solutions/1_basics/01_calculator/
 ```
 
-2. Choose a problem from the appropriate difficulty level
-3. Read the problem requirements thoroughly
-4. Implement your solution following the professional standards
-5. Build and test your solution:
-```bash
-cd project_directory
-make
-make test
-```
+Modüller, uygulama programlama arayüzleri (API), veri türleri ve test yaklaşımı
+dâhil olmak üzere çözümün iç yapısı geliştiriciye aittir. Seçilen yapının
+deponun kalite standartlarını karşılaması yeterlidir.
 
-## 🛠️ Prerequisites
+## 🚀 Başlangıç
 
-- GCC compiler
+1. Depoyu klonlayın:
+
+   ```bash
+   git clone https://github.com/AlgoRogue/c-programming-exercises.git
+   ```
+
+2. Uygun zorluk düzeyinden bir problem seçin.
+3. Problemin amacını ve gereksinimlerini dikkatlice okuyun.
+4. Kendi tasarım kararlarınızla çözümü geliştirin.
+5. Çözümü derleyin ve test edin:
+
+   ```bash
+   cd proje_dizini
+   make
+   make test
+   ```
+
+## 🛠️ Gereksinimler
+
+- GCC derleyicisi
 - GNU Make
 - Git
-- Doxygen (for documentation)
-- Basic command line knowledge
+- Doxygen
+- Temel komut satırı bilgisi
 
-## 📖 Documentation
+## 📖 Belgelendirme
 
-- 📚 API documentation available at [GitHub Pages Link]
-- 📝 Each project includes detailed requirements and guides
-- 🔍 Implementation details and explanations
-- 🏗️ Build and test instructions
+- Belgeler `make docs` komutuyla yerel olarak oluşturulabilir. Ayrıntılar için
+  [`docs/README.md`](docs/README.md) dosyasına bakın.
+- API belgelerinin GitHub Pages üzerinden yayımlanması planlanıyor. Bağlantı,
+  yayın başladığında buraya eklenecek.
+- Her proje ayrıntılı gereksinimler ve kullanım rehberleri içerir.
+- Uygulama kararları ve önemli ayrıntılar belgelenir.
+- Derleme ve test talimatları çözümle birlikte sunulur.
 
-## 🤝 Contributing
+## 🤝 Katkıda Bulunma
 
-Contributions are welcome! Please ensure:
-1. Follow the established project structure
-2. Include proper documentation
-3. Add comprehensive tests
-4. Maintain professional standards
+Katkılar kabul edilir. Bir katkının:
 
-## 📄 License
+1. Deponun yerleşik düzenini takip etmesi,
+2. Gerekli belgeleri içermesi,
+3. Yeterli otomatik testlere sahip olması,
+4. Deponun profesyonel standartlarını koruması beklenir.
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## 📄 Lisans
 
-## 📫 Contact
+Bu proje MIT Lisansı ile lisanslanmıştır. Ayrıntılar için `LICENSE` dosyasına
+bakın.
 
-For questions or suggestions:
+## 📫 İletişim
+
+Soru ve öneriler için:
+
 - GitHub: [@AlgoRogue](https://github.com/AlgoRogue)
