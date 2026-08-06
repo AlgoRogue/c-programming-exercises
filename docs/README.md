@@ -44,5 +44,11 @@ HTML dosyaları yanlışlıkla `main` dalına eklenmez.
 - `main`: Kaynak kod, Doxygen yorumları, `Doxyfile` ve bu rehber
 - `doxygen-docs`: GitHub Pages için üretilmiş HTML dosyaları
 
-GitHub Pages yayını henüz planlama aşamasındadır. Yayın otomasyonu
-etkinleştirildiğinde `doxygen-docs` dalı otomatik olarak güncellenecektir.
+Belgeler aşağıdaki adreste yayındadır:
+
+<https://algorogue.github.io/c-programming-exercises/>
+
+GitHub Pages, `doxygen-docs` dalının kök dizininden yayın yapar. Bu dala
+gönderilen her yeni belge sürümü otomatik olarak yeniden yayımlanır. Doxygen
+çıktısının `main` dalından üretilip `doxygen-docs` dalına aktarılması ise
+şu anda elle yapılır; ileride ayrı bir otomasyon eklenebilir.

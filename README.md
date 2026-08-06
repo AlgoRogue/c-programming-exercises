@@ -44,7 +44,8 @@ göstermesi beklenir:
    - Kullanım örnekleri ve rehberler
    - `main` dalında tutulan belge kaynakları
    - `doxygen-docs` dalında yayımlanan HTML belgeleri
-   - GitHub Pages üzerinden çevrim içi belgeler (planlanıyor)
+   - [GitHub Pages](https://algorogue.github.io/c-programming-exercises/)
+     üzerinden çevrim içi belgeler
 
 2. **🔧 Kod Düzeni**
    - Başlık dosyaları (header files) kullanan modüler bir tasarım
@@ -142,8 +143,7 @@ deponun kalite standartlarını karşılaması yeterlidir.
 
 - Belgeler `make docs` komutuyla yerel olarak oluşturulabilir. Ayrıntılar için
   [`docs/README.md`](docs/README.md) dosyasına bakın.
-- API belgelerinin GitHub Pages üzerinden yayımlanması planlanıyor. Bağlantı,
-  yayın başladığında buraya eklenecek.
+- [GitHub Pages üzerindeki çevrim içi belgeler](https://algorogue.github.io/c-programming-exercises/)
 - Her proje ayrıntılı gereksinimler ve kullanım rehberleri içerir.
 - Uygulama kararları ve önemli ayrıntılar belgelenir.
 - Derleme ve test talimatları çözümle birlikte sunulur.
