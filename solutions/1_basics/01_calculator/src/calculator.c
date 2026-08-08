@@ -4,23 +4,23 @@ enum CalcStatus calculate(double a, double b, enum CalcOp op, double *result)
 {
     switch (op)
     {
-    case TOPLA:
+    case CALC_OP_ADD:
         *result = a + b;
-        return CALC_BASARILI;
-    case CIKAR:
+        return CALC_STATUS_SUCCESS;
+    case CALC_OP_SUBTRACT:
         *result = a - b;
-        return CALC_BASARILI;
-    case CARP:
+        return CALC_STATUS_SUCCESS;
+    case CALC_OP_MULTIPLY:
         *result = a * b;
-        return CALC_BASARILI;
-    case BOL:
+        return CALC_STATUS_SUCCESS;
+    case CALC_OP_DIVIDE:
         if (b == 0.0)
         {
-            return CALC_SIFIRA_BOLME;
+            return CALC_STATUS_DIVISION_BY_ZERO;
         }
         *result = a / b;
-        return CALC_BASARILI;
+        return CALC_STATUS_SUCCESS;
     default:
-        return CALC_DESTEKLENMEYEN_ISLEM;
+        return CALC_STATUS_UNSUPPORTED_OPERATION;
     }
 }

@@ -1,26 +1,92 @@
+#include <stddef.h>
 #include <stdio.h>
-#include <math.h>
-#include "calculator.h"
+#include <stdbool.h>
 
-// Çıktıların tolerans aralığında eşit olup olmadığını kontrol eden yardımcı sabit
-#define TOLERANS 1e-9
+#include "calculator.h"
+#include "test_helpers.h"
+
+// Kayan noktalı sonuçlar için mutlak karşılaştırma toleransı.
+#define TEST_TOLERANCE 1e-9
+
+typedef bool (*TestFunction)(const char *test_id);
+
+struct TestCase
+{
+    const char *id;
+    TestFunction run;
+};
+
+static bool test_calc_01(const char *test_id)
+{
+    double result = 0.0;
+    enum CalcStatus status = calculate(3.0, 4.0, CALC_OP_ADD, &result);
+
+    if (!test_expect_status_equal(test_id,
+                                  CALC_STATUS_SUCCESS,
+                                  status))
+    {
+        return false;
+    }
+
+    return test_expect_double_near(test_id, 7.0, result, TEST_TOLERANCE);
+}
+
+static bool test_calc_02(const char *test_id)
+{
+    double result = 0.0;
+    enum CalcStatus status = calculate(-2.5, 1.5, CALC_OP_ADD, &result);
+
+    if (!test_expect_status_equal(test_id,
+                                  CALC_STATUS_SUCCESS,
+                                  status))
+    {
+        return false;
+    }
+
+    return test_expect_double_near(test_id, -1.0, result, TEST_TOLERANCE);
+}
+
+static bool test_calc_03(const char *test_id)
+{
+    double result = 0.0;
+    enum CalcStatus status = calculate(3.0, 5.0, CALC_OP_SUBTRACT, &result);
+
+    if (!test_expect_status_equal(test_id,
+                                  CALC_STATUS_SUCCESS,
+                                  status))
+    {
+        return false;
+    }
+
+    return test_expect_double_near(test_id, -2.0, result, TEST_TOLERANCE);
+}
 
 int main(void)
 {
-    double result = 0.0;
-    enum CalcStatus status;
+    const struct TestCase tests[] = {
+        {"CALC-01", test_calc_01},
+        {"CALC-02", test_calc_02},
+        {"CALC-03", test_calc_03},
+    };
+    const size_t test_count = sizeof(tests) / sizeof(tests[0]);
+    size_t failure_count = 0;
 
-    // --- TEST 1: CALC-01 (İki pozitif sayıyı toplama) ---
-    status = calculate(3.0, 4.0, TOPLA, &result);
-
-    if (status != CALC_BASARILI || fabs(result - 7.0) >= TOLERANS)
+    for (size_t index = 0; index < test_count; ++index)
     {
-        printf("HATA: CALC-01 (Toplama) testi başarısız oldu!\n");
-        return 1; // 1 döndürerek terminale/Makefile'a testin kaldığını bildiriyoruz
+        if (tests[index].run(tests[index].id))
+        {
+            printf("%s PASSED\n", tests[index].id);
+        }
+        else
+        {
+            ++failure_count;
+        }
     }
 
-    printf("CALC-01 Testi Başarılı!\n");
+    printf("\n%zu test çalıştırıldı: %zu başarılı, %zu başarısız.\n",
+           test_count,
+           test_count - failure_count,
+           failure_count);
 
-    // Tüm testler geçtiyse 0 (başarılı) döndür
-    return 0;
+    return failure_count == 0 ? 0 : 1;
 }
