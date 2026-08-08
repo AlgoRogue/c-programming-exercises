@@ -4,6 +4,8 @@
 # Generated documentation and build outputs
 /build/
 
+# Agent planning artifacts
+/docs/superpowers/
 # Object files
 *.o
 *.ko
