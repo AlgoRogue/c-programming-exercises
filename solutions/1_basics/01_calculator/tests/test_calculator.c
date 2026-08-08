@@ -60,6 +60,15 @@ static bool test_calc_03(const char *test_id)
 
     return test_expect_double_near(test_id, -2.0, result, TEST_TOLERANCE);
 }
+static bool test_calc_10(const char *test_id)
+{
+    enum CalcStatus status = calculate(3.0, 4.0, CALC_OP_ADD, NULL);
+
+    return test_expect_status_equal(test_id,
+                                    CALC_STATUS_INVALID_ARGUMENT,
+                                    status);
+}
+
 
 int main(void)
 {
@@ -67,6 +76,7 @@ int main(void)
         {"CALC-01", test_calc_01},
         {"CALC-02", test_calc_02},
         {"CALC-03", test_calc_03},
+        {"CALC-10", test_calc_10},
     };
     const size_t test_count = sizeof(tests) / sizeof(tests[0]);
     size_t failure_count = 0;

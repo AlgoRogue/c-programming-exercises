@@ -17,6 +17,8 @@ static const char *calc_status_name(enum CalcStatus status)
         return "CALC_STATUS_UNSUPPORTED_OPERATION";
     case CALC_STATUS_DIVISION_BY_ZERO:
         return "CALC_STATUS_DIVISION_BY_ZERO";
+    case CALC_STATUS_INVALID_ARGUMENT:
+        return "CALC_STATUS_INVALID_ARGUMENT";
     default:
         return "UNKNOWN_CALC_STATUS";
     }

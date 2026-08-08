@@ -62,6 +62,7 @@ komutuna dahildir.
 | CALC-07 | Ondalıklı sayılarla bölme | Doğru bölüm ve başarı durumu |
 | CALC-08 | Sıfıra bölme | Sıfıra bölme durumu; sonuç kullanılmaz |
 | CALC-09 | Tanımsız işlem enum değeri | Desteklenmeyen işlem durumu; sonuç kullanılmaz |
+| CALC-10 | `NULL` sonuç işaretçisi | Geçersiz argüman durumu; işaretçi kullanılmaz |
 
 `double` sonuçları doğrudan eşitlik yerine `1e-9` mutlak toleransla
 karşılaştırılır. Bu yaklaşım temel aritmetik testleri için yeterlidir.

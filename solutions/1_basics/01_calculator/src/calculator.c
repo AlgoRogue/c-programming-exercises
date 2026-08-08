@@ -1,7 +1,14 @@
+#include <stddef.h>
+
 #include "calculator.h"
 
 enum CalcStatus calculate(double a, double b, enum CalcOp op, double *result)
 {
+    if (result == NULL)
+    {
+        return CALC_STATUS_INVALID_ARGUMENT;
+    }
+
     switch (op)
     {
     case CALC_OP_ADD:

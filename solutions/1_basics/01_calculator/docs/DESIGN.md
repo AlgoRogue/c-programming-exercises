@@ -127,7 +127,9 @@ iletecektir. Fonksiyonun dönüş değeri ise hesaplamanın başarı durumunu be
 bir `enum` olacaktır.
 
 Başarı durumunda çıktı parametresi hesaplanan sonucu içerir. Hata durumunda
-çıktı parametresindeki değer geçerli bir sonuç olarak kullanılmaz.
+çıktı parametresindeki değer geçerli bir sonuç olarak kullanılmaz. `result`
+işaretçisi `NULL` olmamalıdır; `NULL` verildiğinde fonksiyon geçersiz argüman
+durumunu döndürür ve işaretçiyi kullanmaz.
 
 Desteklenen işlemler `calculator.h` içinde tanımlanan bir `enum` ile temsil
 edilecektir. Bu enum toplama, çıkarma, çarpma ve bölme değerlerini
@@ -146,9 +148,14 @@ kullanacaktır:
 - Başarılı hesaplama
 - Desteklenmeyen işlem
 - Sıfıra bölme
+- Geçersiz fonksiyon argümanı (`result == NULL`)
 
 Hesaplama modülü kullanıcıya doğrudan mesaj yazmayacaktır. Durum kodunu
 kullanıcı mesajına dönüştürme sorumluluğu `main` bileşenine ait olacaktır.
+
+`result == NULL`, kullanıcı girdisi değil çağıran kodun hatasıdır. Bu durum
+ayrı bir hata koduyla bildirilir; `main` bu hatayı kullanıcıdan yeni değer
+isteyerek düzeltmeye çalışmaz.
 
 Girdi modülü aşağıdaki durumları ayırt eden ayrı bir `enum` kullanacaktır:
 
@@ -157,11 +164,15 @@ Girdi modülü aşağıdaki durumları ayırt eden ayrı bir `enum` kullanacakt�
 - Dosya sonu (`EOF`)
 - Girdi/çıktı hatası
 - Bellek ayırma hatası
+- Geçersiz fonksiyon argümanı
 
 Okunan veya ayrıştırılan değerler çıktı parametreleriyle iletilecek ve
 yalnızca başarı durumunda geçerli kabul edilecektir. Girdi modülü kullanıcıya
 doğrudan hata mesajı yazmayacaktır. Durum kodunu mesaja ve program akışına
 dönüştürme sorumluluğu `main` bileşenine ait olacaktır.
+
+`input` modülünün metin veya çıktı işaretçisi için `NULL` alması, geçersiz
+kullanıcı girdisinden ayrı bir geçersiz argüman durumu olarak ele alınacaktır.
 
 Tek işlem modunda başarılı sonuç standart çıktıya; hata ve kullanım bilgileri
 standart hata çıktısına yazılacaktır. Etkileşimli modda kullanıcı yönlendirme
