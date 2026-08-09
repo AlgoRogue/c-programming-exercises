@@ -124,3 +124,52 @@ enum InputStatus parse_operation(const char *text, enum CalcOp *output)
     *output = operation;
     return INPUT_STATUS_SUCCESS;
 }
+
+enum InputStatus parse_continue_choice(const char *text,
+                                       enum ContinueChoice *output)
+{
+    if (text == NULL || output == NULL)
+    {
+        return INPUT_STATUS_INVALID_ARGUMENT;
+    }
+
+    const unsigned char *cursor = (const unsigned char *)text;
+    while (isspace(*cursor))
+    {
+        ++cursor;
+    }
+
+    if (*cursor == '\0')
+    {
+        return INPUT_STATUS_INVALID_INPUT;
+    }
+
+    char symbol = (char)*cursor;
+    ++cursor;
+
+    while (isspace(*cursor))
+    {
+        ++cursor;
+    }
+
+    if (*cursor != '\0')
+    {
+        return INPUT_STATUS_INVALID_INPUT;
+    }
+
+    enum ContinueChoice choice;
+    switch (symbol)
+    {
+    case 'e':
+        choice = CONTINUE_CHOICE_CONTINUE;
+        break;
+    case 'h':
+        choice = CONTINUE_CHOICE_EXIT;
+        break;
+    default:
+        return INPUT_STATUS_INVALID_INPUT;
+    }
+
+    *output = choice;
+    return INPUT_STATUS_SUCCESS;
+}

@@ -13,8 +13,15 @@ enum InputStatus
     INPUT_STATUS_INVALID_ARGUMENT
 };
 
+enum ContinueChoice
+{
+    CONTINUE_CHOICE_CONTINUE,
+    CONTINUE_CHOICE_EXIT
+};
+
 enum InputStatus parse_number(const char *text, double *output);
 enum InputStatus parse_operation(const char *text, enum CalcOp *output);
-
+enum InputStatus parse_continue_choice(const char *text,
+                                       enum ContinueChoice *output);
 
 #endif // INPUT_H

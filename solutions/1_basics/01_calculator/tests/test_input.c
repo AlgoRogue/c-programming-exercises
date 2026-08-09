@@ -290,6 +290,111 @@ static bool test_op_09(const char *test_id)
            test_expect_invalid_operation(test_id, "+-");
 }
 
+
+static const char *continue_choice_name(enum ContinueChoice choice)
+{
+    switch (choice)
+    {
+    case CONTINUE_CHOICE_CONTINUE:
+        return "CONTINUE_CHOICE_CONTINUE";
+    case CONTINUE_CHOICE_EXIT:
+        return "CONTINUE_CHOICE_EXIT";
+    default:
+        return "UNKNOWN_CONTINUE_CHOICE";
+    }
+}
+
+static bool test_expect_continue_choice_equal(const char *test_id,
+                                              enum ContinueChoice expected,
+                                              enum ContinueChoice actual)
+{
+    if (actual == expected)
+    {
+        return true;
+    }
+
+    fprintf(stderr,
+            "%s FAILED: expected continue choice = %s, actual = %s\n",
+            test_id,
+            continue_choice_name(expected),
+            continue_choice_name(actual));
+    return false;
+}
+
+static bool test_expect_valid_continue_choice(const char *test_id,
+                                              const char *text,
+                                              enum ContinueChoice expected)
+{
+    enum ContinueChoice output =
+        expected == CONTINUE_CHOICE_CONTINUE
+            ? CONTINUE_CHOICE_EXIT
+            : CONTINUE_CHOICE_CONTINUE;
+    enum InputStatus status = parse_continue_choice(text, &output);
+
+    if (!test_expect_input_status_equal(test_id, INPUT_STATUS_SUCCESS, status))
+    {
+        return false;
+    }
+
+    return test_expect_continue_choice_equal(test_id, expected, output);
+}
+
+static bool test_expect_invalid_continue_choice(const char *test_id,
+                                                 const char *text)
+{
+    enum ContinueChoice output = CONTINUE_CHOICE_EXIT;
+    enum InputStatus status = parse_continue_choice(text, &output);
+
+    if (!test_expect_input_status_equal(test_id,
+                                        INPUT_STATUS_INVALID_INPUT,
+                                        status))
+    {
+        return false;
+    }
+
+    return test_expect_continue_choice_equal(test_id,
+                                             CONTINUE_CHOICE_EXIT,
+                                             output);
+}
+
+static bool test_cont_01(const char *test_id)
+{
+    return test_expect_valid_continue_choice(test_id,
+                                             "e",
+                                             CONTINUE_CHOICE_CONTINUE);
+}
+
+static bool test_cont_02(const char *test_id)
+{
+    return test_expect_valid_continue_choice(test_id,
+                                             "h",
+                                             CONTINUE_CHOICE_EXIT);
+}
+
+static bool test_cont_03(const char *test_id)
+{
+    return test_expect_valid_continue_choice(test_id,
+                                             "\t e \n",
+                                             CONTINUE_CHOICE_CONTINUE) &&
+           test_expect_valid_continue_choice(test_id,
+                                             "  h\t",
+                                             CONTINUE_CHOICE_EXIT);
+}
+
+static bool test_cont_04(const char *test_id)
+{
+    return test_expect_invalid_continue_choice(test_id, "E") &&
+           test_expect_invalid_continue_choice(test_id, "H") &&
+           test_expect_invalid_continue_choice(test_id, "%");
+}
+
+static bool test_cont_05(const char *test_id)
+{
+    return test_expect_invalid_continue_choice(test_id, "") &&
+           test_expect_invalid_continue_choice(test_id, "   ") &&
+           test_expect_invalid_continue_choice(test_id, "ee") &&
+           test_expect_invalid_continue_choice(test_id, "eh");
+}
 int main(void)
 {
     const struct TestCase tests[] = {
@@ -319,6 +424,11 @@ int main(void)
         {"OP-07", test_op_07},
         {"OP-08", test_op_08},
         {"OP-09", test_op_09},
+        {"CONT-01", test_cont_01},
+        {"CONT-02", test_cont_02},
+        {"CONT-03", test_cont_03},
+        {"CONT-04", test_cont_04},
+        {"CONT-05", test_cont_05},
     };
 
     return test_run_cases(tests, sizeof(tests) / sizeof(tests[0]));
