@@ -7,6 +7,7 @@ LDFLAGS = -lm
 BUILD_DIR = ../../../build/tests/1_basics/01_calculator
 TEST_TARGET = $(BUILD_DIR)/test_calc
 TEST_SRCS = tests/test_calculator.c src/calculator.c
+
 INPUT_TEST_TARGET = $(BUILD_DIR)/test_input
 INPUT_TEST_SRCS = tests/test_input.c src/input.c
 
@@ -26,6 +27,7 @@ test: $(TEST_SRCS)
 # Temizlik
 clean:
 	rm -f test_calc $(TEST_TARGET) $(INPUT_TEST_TARGET)
+
 	rm -f *.o src/*.o tests/*.o
 
 .PHONY: all test clean
