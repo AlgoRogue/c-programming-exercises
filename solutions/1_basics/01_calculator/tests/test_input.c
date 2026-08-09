@@ -44,6 +44,71 @@ static bool test_expect_input_status_equal(const char *test_id,
     return false;
 }
 
+static const char *calc_op_name(enum CalcOp op)
+{
+    switch (op)
+    {
+    case CALC_OP_ADD:
+        return "CALC_OP_ADD";
+    case CALC_OP_SUBTRACT:
+        return "CALC_OP_SUBTRACT";
+    case CALC_OP_MULTIPLY:
+        return "CALC_OP_MULTIPLY";
+    case CALC_OP_DIVIDE:
+        return "CALC_OP_DIVIDE";
+    default:
+        return "UNKNOWN_CALC_OP";
+    }
+}
+
+static bool test_expect_calc_op_equal(const char *test_id,
+                                      enum CalcOp expected,
+                                      enum CalcOp actual)
+{
+    if (actual == expected)
+    {
+        return true;
+    }
+
+    fprintf(stderr,
+            "%s FAILED: expected calculation operation = %s, actual = %s\n",
+            test_id,
+            calc_op_name(expected),
+            calc_op_name(actual));
+    return false;
+}
+
+static bool test_expect_valid_operation(const char *test_id,
+                                        const char *text,
+                                        enum CalcOp expected)
+{
+    enum CalcOp output = CALC_OP_DIVIDE;
+    enum InputStatus status = parse_operation(text, &output);
+
+    if (!test_expect_input_status_equal(test_id, INPUT_STATUS_SUCCESS, status))
+    {
+        return false;
+    }
+
+    return test_expect_calc_op_equal(test_id, expected, output);
+}
+
+static bool test_expect_invalid_operation(const char *test_id, const char *text)
+{
+    enum CalcOp output = CALC_OP_DIVIDE;
+    enum InputStatus status = parse_operation(text, &output);
+
+    if (!test_expect_input_status_equal(test_id,
+                                        INPUT_STATUS_INVALID_INPUT,
+                                        status))
+    {
+        return false;
+    }
+
+    return test_expect_calc_op_equal(test_id, CALC_OP_DIVIDE, output);
+}
+
+
 static bool test_expect_valid_number(const char *test_id,
                                      const char *text,
                                      double expected)
@@ -178,6 +243,53 @@ static bool test_num_17(const char *test_id)
     return test_expect_invalid_number(test_id, text);
 }
 
+static bool test_op_01(const char *test_id)
+{
+    return test_expect_valid_operation(test_id, "+", CALC_OP_ADD);
+}
+
+static bool test_op_02(const char *test_id)
+{
+    return test_expect_valid_operation(test_id, "-", CALC_OP_SUBTRACT);
+}
+
+static bool test_op_03(const char *test_id)
+{
+    return test_expect_valid_operation(test_id, "*", CALC_OP_MULTIPLY);
+}
+
+static bool test_op_04(const char *test_id)
+{
+    return test_expect_valid_operation(test_id, "x", CALC_OP_MULTIPLY);
+}
+
+static bool test_op_05(const char *test_id)
+{
+    return test_expect_valid_operation(test_id, "/", CALC_OP_DIVIDE);
+}
+
+static bool test_op_06(const char *test_id)
+{
+    return test_expect_valid_operation(test_id, "\t x \n", CALC_OP_MULTIPLY);
+}
+
+static bool test_op_07(const char *test_id)
+{
+    return test_expect_invalid_operation(test_id, "") &&
+           test_expect_invalid_operation(test_id, "   ");
+}
+
+static bool test_op_08(const char *test_id)
+{
+    return test_expect_invalid_operation(test_id, "%");
+}
+
+static bool test_op_09(const char *test_id)
+{
+    return test_expect_invalid_operation(test_id, "++") &&
+           test_expect_invalid_operation(test_id, "+-");
+}
+
 int main(void)
 {
     const struct TestCase tests[] = {
@@ -198,6 +310,15 @@ int main(void)
         {"NUM-15", test_num_15},
         {"NUM-16", test_num_16},
         {"NUM-17", test_num_17},
+        {"OP-01", test_op_01},
+        {"OP-02", test_op_02},
+        {"OP-03", test_op_03},
+        {"OP-04", test_op_04},
+        {"OP-05", test_op_05},
+        {"OP-06", test_op_06},
+        {"OP-07", test_op_07},
+        {"OP-08", test_op_08},
+        {"OP-09", test_op_09},
     };
 
     return test_run_cases(tests, sizeof(tests) / sizeof(tests[0]));

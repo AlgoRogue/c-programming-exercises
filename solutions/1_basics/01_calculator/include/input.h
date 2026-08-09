@@ -1,6 +1,8 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include "calculator.h"
+
 enum InputStatus
 {
     INPUT_STATUS_SUCCESS,
@@ -12,5 +14,7 @@ enum InputStatus
 };
 
 enum InputStatus parse_number(const char *text, double *output);
+enum InputStatus parse_operation(const char *text, enum CalcOp *output);
+
 
 #endif // INPUT_H

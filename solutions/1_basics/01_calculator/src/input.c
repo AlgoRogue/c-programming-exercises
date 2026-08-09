@@ -69,3 +69,58 @@ enum InputStatus parse_number(const char *text, double *output)
     *output = value;
     return INPUT_STATUS_SUCCESS;
 }
+
+enum InputStatus parse_operation(const char *text, enum CalcOp *output)
+{
+    if (text == NULL || output == NULL)
+    {
+        return INPUT_STATUS_INVALID_ARGUMENT;
+    }
+
+    const unsigned char *cursor = (const unsigned char *)text;
+    while (isspace(*cursor))
+    {
+        ++cursor;
+    }
+
+    if (*cursor == '\0')
+    {
+        return INPUT_STATUS_INVALID_INPUT;
+    }
+
+    char symbol = (char)*cursor;
+    ++cursor;
+
+    while (isspace(*cursor))
+    {
+        ++cursor;
+    }
+
+    if (*cursor != '\0')
+    {
+        return INPUT_STATUS_INVALID_INPUT;
+    }
+
+    enum CalcOp operation;
+    switch (symbol)
+    {
+    case '+':
+        operation = CALC_OP_ADD;
+        break;
+    case '-':
+        operation = CALC_OP_SUBTRACT;
+        break;
+    case '*':
+    case 'x':
+        operation = CALC_OP_MULTIPLY;
+        break;
+    case '/':
+        operation = CALC_OP_DIVIDE;
+        break;
+    default:
+        return INPUT_STATUS_INVALID_INPUT;
+    }
+
+    *output = operation;
+    return INPUT_STATUS_SUCCESS;
+}
