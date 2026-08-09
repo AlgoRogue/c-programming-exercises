@@ -271,3 +271,4 @@ Girdi ayrıştırma fonksiyonları terminal etkileşiminden bağımsız olarak
 doğrudan test edilecektir.
 
 **Durum:** Karar verildi.
+<!-- calc fix -->

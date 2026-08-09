@@ -30,4 +30,4 @@ enum CalcStatus
  */
 enum CalcStatus calculate(double a, double b, enum CalcOp op, double *result);
 
-#endif // CALCULATOR_H
+#endif // CALCULATOR_H/* calc fix */
