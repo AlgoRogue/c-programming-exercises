@@ -201,3 +201,4 @@ Testler şu koşullarda başarılı kabul edilir:
 - `make test` sıfır çıkış kodu üretir.
 - Bütün kabul testleri beklenen davranışı gösterir.
 - Test derlemesinde proje tarafından etkinleştirilen uyarılar oluşmaz.
+<!-- calc fix -->
