@@ -3,44 +3,42 @@
 
 #include <math.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 
-#include "calculator.h"
+#define TEST_DOUBLE_TOLERANCE 1e-9
 
-static const char *calc_status_name(enum CalcStatus status)
+typedef bool (*TestFunction)(const char *test_id);
+
+struct TestCase
 {
-    switch (status)
-    {
-    case CALC_STATUS_SUCCESS:
-        return "CALC_STATUS_SUCCESS";
-    case CALC_STATUS_UNSUPPORTED_OPERATION:
-        return "CALC_STATUS_UNSUPPORTED_OPERATION";
-    case CALC_STATUS_DIVISION_BY_ZERO:
-        return "CALC_STATUS_DIVISION_BY_ZERO";
-    case CALC_STATUS_INVALID_ARGUMENT:
-        return "CALC_STATUS_INVALID_ARGUMENT";
-    default:
-        return "UNKNOWN_CALC_STATUS";
-    }
-}
+    const char *id;
+    TestFunction run;
+};
 
-static inline bool test_expect_status_equal(const char *test_id,
-                                            enum CalcStatus expected,
-                                            enum CalcStatus actual)
+static inline int test_run_cases(const struct TestCase *tests,
+                                 size_t test_count)
 {
-    if (actual == expected)
+    size_t failure_count = 0;
+
+    for (size_t index = 0; index < test_count; ++index)
     {
-        return true;
+        if (tests[index].run(tests[index].id))
+        {
+            printf("%s PASSED\n", tests[index].id);
+        }
+        else
+        {
+            ++failure_count;
+        }
     }
 
-    fprintf(
-        stderr,
-        "%s FAILED: için beklenen durum = %s, gerceklesen = %s\n",
-        test_id,
-        calc_status_name(expected),
-        calc_status_name(actual)
-    );
-    return false;
+    printf("\n%zu test çalıştırıldı: %zu başarılı, %zu başarısız.\n",
+           test_count,
+           test_count - failure_count,
+           failure_count);
+
+    return failure_count == 0 ? 0 : 1;
 }
 
 static inline bool test_expect_double_near(const char *test_id,
