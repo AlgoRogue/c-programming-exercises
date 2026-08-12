@@ -109,7 +109,6 @@ static bool test_expect_invalid_operation(const char *test_id, const char *text)
     return test_expect_calc_op_equal(test_id, CALC_OP_DIVIDE, output);
 }
 
-
 static bool test_expect_valid_number(const char *test_id,
                                      const char *text,
                                      double expected)

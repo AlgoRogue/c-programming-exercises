@@ -4,7 +4,6 @@
 #include <stddef.h>
 #include <stdio.h>
 #include "calculator.h"
-
 enum InputStatus
 {
     INPUT_STATUS_SUCCESS,

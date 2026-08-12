@@ -36,6 +36,9 @@ test-calculator:
 	$(CC) $(CFLAGS) $(TEST_SRCS) -o $(TEST_TARGET) $(LDFLAGS)
 	@echo "--- Testler Çalıştırılıyor ---"
 	$(TEST_TARGET)
+	$(CC) $(CFLAGS) $(INPUT_TEST_SRCS) -o $(INPUT_TEST_TARGET) $(LDFLAGS)
+	@echo "--- Input Testleri Çalıştırılıyor ---"
+	$(INPUT_TEST_TARGET)
 
 test-input:
 	$(CC) $(CFLAGS) $(INPUT_TEST_SRCS) -o $(INPUT_TEST_TARGET) $(LDFLAGS)

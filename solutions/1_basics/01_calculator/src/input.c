@@ -36,7 +36,6 @@ static enum InputStatus parse_single_symbol(const char *text, char *output)
     *output = symbol;
     return INPUT_STATUS_SUCCESS;
 }
-
 enum InputStatus parse_number(const char *text, double *output)
 {
     if (text == NULL || output == NULL)
