@@ -14,6 +14,9 @@ INPUT_READ_TEST_SRCS = tests/test_input_read.c src/input.c
 
 APP_TARGET = ../../../build/solutions/1_basics/01_calculator/calc
 APP_SRCS = src/main.c src/calculator.c src/input.c
+FAULT_MAIN_OBJ = $(BUILD_DIR)/main_fault.o
+FAULT_INPUT_OBJ = $(BUILD_DIR)/input_fault.o
+FAULT_TARGET = $(BUILD_DIR)/calc_fault
 
 calc: $(APP_TARGET)
 
@@ -45,11 +48,28 @@ test-input-read: $(INPUT_READ_TEST_SRCS)
 	$(INPUT_READ_TEST_TARGET)
 
 # Birim Testlerini Derle ve Çalıştır
-test: test-calculator test-input test-input-read test-cli
+test: test-calculator test-input test-input-read test-cli test-resources
+
+
+$(FAULT_MAIN_OBJ): src/main.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -Dfree=test_free -c src/main.c -o $(FAULT_MAIN_OBJ)
+
+$(FAULT_INPUT_OBJ): src/input.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -Dgetline=test_getline -c src/input.c -o $(FAULT_INPUT_OBJ)
+
+$(FAULT_TARGET): $(FAULT_MAIN_OBJ) $(FAULT_INPUT_OBJ) src/calculator.c tests/fake_runtime.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(FAULT_MAIN_OBJ) $(FAULT_INPUT_OBJ) src/calculator.c tests/fake_runtime.c -o $(FAULT_TARGET) $(LDFLAGS)
 
 # Temizlik
 clean:
-	rm -f $(TEST_TARGET) $(INPUT_TEST_TARGET) $(INPUT_READ_TEST_TARGET) $(APP_TARGET)
+	rm -f $(TEST_TARGET) $(INPUT_TEST_TARGET) $(INPUT_READ_TEST_TARGET) $(APP_TARGET) $(FAULT_TARGET) $(FAULT_MAIN_OBJ) $(FAULT_INPUT_OBJ)
 	rm -f *.o src/*.o tests/*.o
 
-.PHONY: all test test-calculator test-input test-input-read test-cli calc clean
+.PHONY: all test test-calculator test-input test-input-read test-cli test-resources calc clean
+
+
+test-resources: $(FAULT_TARGET)
+	sh tests/test_resources.sh "$(FAULT_TARGET)"

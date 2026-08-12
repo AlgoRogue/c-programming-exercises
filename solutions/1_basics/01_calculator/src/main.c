@@ -107,6 +107,18 @@ static enum InputStatus prompt_for_continue(FILE *input,
     return s;
 }
 
+
+static void report_read_failure(FILE *error, enum InputStatus status)
+{
+    if (status == INPUT_STATUS_IO_ERROR) {
+        fprintf(error, "Hata: Girdi okunamadı.\n");
+    } else if (status == INPUT_STATUS_MEMORY_ERROR) {
+        fprintf(error, "Hata: Bellek ayrılamadı.\n");
+    } else if (status == INPUT_STATUS_INVALID_ARGUMENT) {
+        fprintf(error, "Hata: Geçersiz girdi argümanı.\n");
+    }
+}
+
 static int run_interactive(FILE *input, FILE *output, FILE *error)
 {
     char *buffer = NULL;
@@ -128,6 +140,15 @@ static int run_interactive(FILE *input, FILE *output, FILE *error)
         if (s == INPUT_STATUS_INVALID_INPUT) {
             continue;
         }
+        if (s != INPUT_STATUS_SUCCESS && s != INPUT_STATUS_END_OF_FILE && s != INPUT_STATUS_INVALID_INPUT) {
+            report_read_failure(error, s);
+            exit_code = EXIT_FAILURE;
+            goto cleanup;
+        }
+        if (s == INPUT_STATUS_END_OF_FILE) {
+            exit_code = EXIT_SUCCESS;
+            goto cleanup;
+        }
         if (s != INPUT_STATUS_SUCCESS) {
             exit_code = EXIT_FAILURE;
             goto cleanup;
@@ -141,6 +162,15 @@ static int run_interactive(FILE *input, FILE *output, FILE *error)
         }
         if (s == INPUT_STATUS_INVALID_INPUT) {
             continue;
+        }
+        if (s != INPUT_STATUS_SUCCESS && s != INPUT_STATUS_END_OF_FILE && s != INPUT_STATUS_INVALID_INPUT) {
+            report_read_failure(error, s);
+            exit_code = EXIT_FAILURE;
+            goto cleanup;
+        }
+        if (s == INPUT_STATUS_END_OF_FILE) {
+            exit_code = EXIT_SUCCESS;
+            goto cleanup;
         }
         if (s != INPUT_STATUS_SUCCESS) {
             exit_code = EXIT_FAILURE;
@@ -156,6 +186,15 @@ static int run_interactive(FILE *input, FILE *output, FILE *error)
         }
         if (s == INPUT_STATUS_INVALID_INPUT) {
             continue;
+        }
+        if (s != INPUT_STATUS_SUCCESS && s != INPUT_STATUS_END_OF_FILE && s != INPUT_STATUS_INVALID_INPUT) {
+            report_read_failure(error, s);
+            exit_code = EXIT_FAILURE;
+            goto cleanup;
+        }
+        if (s == INPUT_STATUS_END_OF_FILE) {
+            exit_code = EXIT_SUCCESS;
+            goto cleanup;
         }
         if (s != INPUT_STATUS_SUCCESS) {
             exit_code = EXIT_FAILURE;
@@ -189,6 +228,15 @@ static int run_interactive(FILE *input, FILE *output, FILE *error)
         }
         if (s == INPUT_STATUS_INVALID_INPUT) {
             continue;
+        }
+        if (s != INPUT_STATUS_SUCCESS && s != INPUT_STATUS_END_OF_FILE && s != INPUT_STATUS_INVALID_INPUT) {
+            report_read_failure(error, s);
+            exit_code = EXIT_FAILURE;
+            goto cleanup;
+        }
+        if (s == INPUT_STATUS_END_OF_FILE) {
+            exit_code = EXIT_SUCCESS;
+            goto cleanup;
         }
         if (s != INPUT_STATUS_SUCCESS) {
             exit_code = EXIT_FAILURE;
