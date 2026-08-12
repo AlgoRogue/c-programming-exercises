@@ -236,12 +236,20 @@ static bool test_num_16(const char *test_id)
 
 static bool test_num_17(const char *test_id)
 {
-    char text[DBL_MAX_10_EXP + 2];
+    char overflow[DBL_MAX_10_EXP + 2];
+    char underflow[-DBL_MIN_10_EXP + DBL_DECIMAL_DIG + 5];
 
-    memset(text, '9', sizeof(text) - 1);
-    text[sizeof(text) - 1] = '\0';
+    memset(overflow, '9', sizeof(overflow) - 1);
+    overflow[sizeof(overflow) - 1] = '\0';
 
-    return test_expect_invalid_number(test_id, text);
+    underflow[0] = '0';
+    underflow[1] = '.';
+    memset(underflow + 2, '0', sizeof(underflow) - 4);
+    underflow[sizeof(underflow) - 2] = '1';
+    underflow[sizeof(underflow) - 1] = '\0';
+
+    return test_expect_invalid_number(test_id, overflow) &&
+           test_expect_invalid_number(test_id, underflow);
 }
 
 static bool test_num_18(const char *test_id)
