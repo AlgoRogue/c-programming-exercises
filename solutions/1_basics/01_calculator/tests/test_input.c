@@ -82,7 +82,8 @@ static bool test_expect_valid_operation(const char *test_id,
                                         const char *text,
                                         enum CalcOp expected)
 {
-    enum CalcOp output = CALC_OP_DIVIDE;
+    enum CalcOp output =
+        expected == CALC_OP_DIVIDE ? CALC_OP_ADD : CALC_OP_DIVIDE;
     enum InputStatus status = parse_operation(text, &output);
 
     if (!test_expect_input_status_equal(test_id, INPUT_STATUS_SUCCESS, status))
@@ -113,7 +114,7 @@ static bool test_expect_valid_number(const char *test_id,
                                      const char *text,
                                      double expected)
 {
-    double output = 0.0;
+    double output = expected == 0.0 ? 1.0 : 0.0;
     enum InputStatus status = parse_number(text, &output);
 
     if (!test_expect_input_status_equal(test_id, INPUT_STATUS_SUCCESS, status))
@@ -243,6 +244,32 @@ static bool test_num_17(const char *test_id)
     return test_expect_invalid_number(test_id, text);
 }
 
+static bool test_num_18(const char *test_id)
+{
+    const double sentinel = 1234.5;
+    double output = sentinel;
+    enum InputStatus status = parse_number(NULL, &output);
+
+    if (!test_expect_input_status_equal(test_id,
+                                        INPUT_STATUS_INVALID_ARGUMENT,
+                                        status))
+    {
+        return false;
+    }
+
+    if (!test_expect_double_near(test_id,
+                                 sentinel,
+                                 output,
+                                 TEST_DOUBLE_TOLERANCE))
+    {
+        return false;
+    }
+
+    return test_expect_input_status_equal(test_id,
+                                          INPUT_STATUS_INVALID_ARGUMENT,
+                                          parse_number("12", NULL));
+}
+
 static bool test_op_01(const char *test_id)
 {
     return test_expect_valid_operation(test_id, "+", CALC_OP_ADD);
@@ -287,7 +314,30 @@ static bool test_op_08(const char *test_id)
 static bool test_op_09(const char *test_id)
 {
     return test_expect_invalid_operation(test_id, "++") &&
-           test_expect_invalid_operation(test_id, "+-");
+           test_expect_invalid_operation(test_id, "+-") &&
+           test_expect_invalid_operation(test_id, "+ +");
+}
+
+static bool test_op_10(const char *test_id)
+{
+    enum CalcOp output = CALC_OP_DIVIDE;
+    enum InputStatus status = parse_operation(NULL, &output);
+
+    if (!test_expect_input_status_equal(test_id,
+                                        INPUT_STATUS_INVALID_ARGUMENT,
+                                        status))
+    {
+        return false;
+    }
+
+    if (!test_expect_calc_op_equal(test_id, CALC_OP_DIVIDE, output))
+    {
+        return false;
+    }
+
+    return test_expect_input_status_equal(test_id,
+                                          INPUT_STATUS_INVALID_ARGUMENT,
+                                          parse_operation("+", NULL));
 }
 
 
@@ -393,7 +443,33 @@ static bool test_cont_05(const char *test_id)
     return test_expect_invalid_continue_choice(test_id, "") &&
            test_expect_invalid_continue_choice(test_id, "   ") &&
            test_expect_invalid_continue_choice(test_id, "ee") &&
-           test_expect_invalid_continue_choice(test_id, "eh");
+           test_expect_invalid_continue_choice(test_id, "eh") &&
+           test_expect_invalid_continue_choice(test_id, "e h");
+}
+
+static bool test_cont_06(const char *test_id)
+{
+    enum ContinueChoice output = CONTINUE_CHOICE_EXIT;
+    enum InputStatus status = parse_continue_choice(NULL, &output);
+
+    if (!test_expect_input_status_equal(test_id,
+                                        INPUT_STATUS_INVALID_ARGUMENT,
+                                        status))
+    {
+        return false;
+    }
+
+    if (!test_expect_continue_choice_equal(test_id,
+                                           CONTINUE_CHOICE_EXIT,
+                                           output))
+    {
+        return false;
+    }
+
+    return test_expect_input_status_equal(
+        test_id,
+        INPUT_STATUS_INVALID_ARGUMENT,
+        parse_continue_choice("e", NULL));
 }
 int main(void)
 {
@@ -415,6 +491,7 @@ int main(void)
         {"NUM-15", test_num_15},
         {"NUM-16", test_num_16},
         {"NUM-17", test_num_17},
+        {"NUM-18", test_num_18},
         {"OP-01", test_op_01},
         {"OP-02", test_op_02},
         {"OP-03", test_op_03},
@@ -424,11 +501,13 @@ int main(void)
         {"OP-07", test_op_07},
         {"OP-08", test_op_08},
         {"OP-09", test_op_09},
+        {"OP-10", test_op_10},
         {"CONT-01", test_cont_01},
         {"CONT-02", test_cont_02},
         {"CONT-03", test_cont_03},
         {"CONT-04", test_cont_04},
         {"CONT-05", test_cont_05},
+        {"CONT-06", test_cont_06},
     };
 
     return test_run_cases(tests, sizeof(tests) / sizeof(tests[0]));

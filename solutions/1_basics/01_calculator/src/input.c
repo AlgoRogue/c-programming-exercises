@@ -5,6 +5,38 @@
 #include <errno.h>
 #include <stdlib.h>
 
+static const unsigned char *skip_whitespace(const unsigned char *cursor)
+{
+    while (isspace(*cursor))
+    {
+        ++cursor;
+    }
+
+    return cursor;
+}
+
+static enum InputStatus parse_single_symbol(const char *text, char *output)
+{
+    const unsigned char *cursor =
+        skip_whitespace((const unsigned char *)text);
+
+    if (*cursor == '\0')
+    {
+        return INPUT_STATUS_INVALID_INPUT;
+    }
+
+    char symbol = (char)*cursor;
+    cursor = skip_whitespace(cursor + 1);
+
+    if (*cursor != '\0')
+    {
+        return INPUT_STATUS_INVALID_INPUT;
+    }
+
+    *output = symbol;
+    return INPUT_STATUS_SUCCESS;
+}
+
 enum InputStatus parse_number(const char *text, double *output)
 {
     if (text == NULL || output == NULL)
@@ -12,11 +44,8 @@ enum InputStatus parse_number(const char *text, double *output)
         return INPUT_STATUS_INVALID_ARGUMENT;
     }
 
-    const unsigned char *cursor = (const unsigned char *)text;
-    while (isspace(*cursor))
-    {
-        ++cursor;
-    }
+    const unsigned char *cursor =
+        skip_whitespace((const unsigned char *)text);
 
     const char *number_start = (const char *)cursor;
     if (*cursor == '+' || *cursor == '-')
@@ -47,10 +76,7 @@ enum InputStatus parse_number(const char *text, double *output)
     }
 
     const char *number_end = (const char *)cursor;
-    while (isspace(*cursor))
-    {
-        ++cursor;
-    }
+    cursor = skip_whitespace(cursor);
 
     if (*cursor != '\0')
     {
@@ -77,28 +103,11 @@ enum InputStatus parse_operation(const char *text, enum CalcOp *output)
         return INPUT_STATUS_INVALID_ARGUMENT;
     }
 
-    const unsigned char *cursor = (const unsigned char *)text;
-    while (isspace(*cursor))
+    char symbol;
+    enum InputStatus status = parse_single_symbol(text, &symbol);
+    if (status != INPUT_STATUS_SUCCESS)
     {
-        ++cursor;
-    }
-
-    if (*cursor == '\0')
-    {
-        return INPUT_STATUS_INVALID_INPUT;
-    }
-
-    char symbol = (char)*cursor;
-    ++cursor;
-
-    while (isspace(*cursor))
-    {
-        ++cursor;
-    }
-
-    if (*cursor != '\0')
-    {
-        return INPUT_STATUS_INVALID_INPUT;
+        return status;
     }
 
     enum CalcOp operation;
@@ -133,28 +142,11 @@ enum InputStatus parse_continue_choice(const char *text,
         return INPUT_STATUS_INVALID_ARGUMENT;
     }
 
-    const unsigned char *cursor = (const unsigned char *)text;
-    while (isspace(*cursor))
+    char symbol;
+    enum InputStatus status = parse_single_symbol(text, &symbol);
+    if (status != INPUT_STATUS_SUCCESS)
     {
-        ++cursor;
-    }
-
-    if (*cursor == '\0')
-    {
-        return INPUT_STATUS_INVALID_INPUT;
-    }
-
-    char symbol = (char)*cursor;
-    ++cursor;
-
-    while (isspace(*cursor))
-    {
-        ++cursor;
-    }
-
-    if (*cursor != '\0')
-    {
-        return INPUT_STATUS_INVALID_INPUT;
+        return status;
     }
 
     enum ContinueChoice choice;
