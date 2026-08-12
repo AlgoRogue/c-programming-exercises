@@ -38,12 +38,14 @@ static bool test_expect_calc_status_equal(const char *test_id,
     return false;
 }
 
+
 static bool test_calc_01(const char *test_id)
 {
     double result = 0.0;
     enum CalcStatus status = calculate(3.0, 4.0, CALC_OP_ADD, &result);
 
     if (!test_expect_calc_status_equal(test_id,
+
                                   CALC_STATUS_SUCCESS,
                                   status))
     {

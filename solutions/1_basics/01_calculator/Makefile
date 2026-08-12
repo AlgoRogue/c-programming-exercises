@@ -7,6 +7,7 @@ LDFLAGS = -lm
 BUILD_DIR = ../../../build/tests/1_basics/01_calculator
 TEST_TARGET = $(BUILD_DIR)/test_calc
 TEST_SRCS = tests/test_calculator.c src/calculator.c
+
 INPUT_TEST_TARGET = $(BUILD_DIR)/test_input
 INPUT_TEST_SRCS = tests/test_input.c src/input.c
 INPUT_READ_TEST_TARGET = $(BUILD_DIR)/test_input_read
