@@ -12,6 +12,18 @@ INPUT_TEST_SRCS = tests/test_input.c src/input.c
 INPUT_READ_TEST_TARGET = $(BUILD_DIR)/test_input_read
 INPUT_READ_TEST_SRCS = tests/test_input_read.c src/input.c
 
+APP_TARGET = ../../../build/solutions/1_basics/01_calculator/calc
+APP_SRCS = src/main.c src/calculator.c src/input.c
+
+calc: $(APP_TARGET)
+
+test-cli: $(APP_TARGET)
+	sh tests/test_cli.sh "$(APP_TARGET)"
+
+$(APP_TARGET): $(APP_SRCS)
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(APP_SRCS) -o $(APP_TARGET) $(LDFLAGS)
+
 # Varsayılan Hedef
 all: test
 
@@ -33,11 +45,11 @@ test-input-read: $(INPUT_READ_TEST_SRCS)
 	$(INPUT_READ_TEST_TARGET)
 
 # Birim Testlerini Derle ve Çalıştır
-test: test-calculator test-input test-input-read
+test: test-calculator test-input test-input-read test-cli
 
 # Temizlik
 clean:
-	rm -f $(TEST_TARGET) $(INPUT_TEST_TARGET) $(INPUT_READ_TEST_TARGET)
+	rm -f $(TEST_TARGET) $(INPUT_TEST_TARGET) $(INPUT_READ_TEST_TARGET) $(APP_TARGET)
 	rm -f *.o src/*.o tests/*.o
 
-.PHONY: all test test-calculator test-input test-input-read clean
+.PHONY: all test test-calculator test-input test-input-read test-cli calc clean
