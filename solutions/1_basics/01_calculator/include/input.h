@@ -1,6 +1,8 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include <stddef.h>
+#include <stdio.h>
 #include "calculator.h"
 
 enum InputStatus
@@ -23,5 +25,8 @@ enum InputStatus parse_number(const char *text, double *output);
 enum InputStatus parse_operation(const char *text, enum CalcOp *output);
 enum InputStatus parse_continue_choice(const char *text,
                                        enum ContinueChoice *output);
+enum InputStatus read_line(FILE *stream,
+                           char **buffer,
+                           size_t *capacity);
 
 #endif // INPUT_H

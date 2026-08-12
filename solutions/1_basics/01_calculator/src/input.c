@@ -165,3 +165,30 @@ enum InputStatus parse_continue_choice(const char *text,
     *output = choice;
     return INPUT_STATUS_SUCCESS;
 }
+
+enum InputStatus read_line(FILE *stream,
+                           char **buffer,
+                           size_t *capacity)
+{
+    if (stream == NULL || buffer == NULL || capacity == NULL)
+    {
+        return INPUT_STATUS_INVALID_ARGUMENT;
+    }
+    errno = 0;
+    ssize_t n = getline(buffer, capacity, stream);
+    if (n >= 0)
+    {
+        return INPUT_STATUS_SUCCESS;
+    }
+    if (errno == ENOMEM)
+    {
+        return INPUT_STATUS_MEMORY_ERROR;
+    }
+
+    if (feof(stream))
+    {
+        return INPUT_STATUS_END_OF_FILE;
+    }
+
+    return INPUT_STATUS_IO_ERROR;
+}
