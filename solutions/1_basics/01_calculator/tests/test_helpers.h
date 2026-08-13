@@ -64,4 +64,3 @@ static inline bool test_expect_double_near(const char *test_id,
 }
 
 #endif // TEST_HELPERS_H
-/* calc fix */

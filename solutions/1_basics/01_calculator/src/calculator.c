@@ -31,4 +31,3 @@ enum CalcStatus calculate(double a, double b, enum CalcOp op, double *result)
         return CALC_STATUS_UNSUPPORTED_OPERATION;
     }
 }
-/* calc fix */

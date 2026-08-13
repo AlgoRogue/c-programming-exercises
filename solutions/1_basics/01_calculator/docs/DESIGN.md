@@ -252,17 +252,23 @@ Testler sorumluluklara göre ayrılacaktır:
 
 ```text
 tests/
+├── fake_runtime.c
 ├── test_calculator.c
-├── test_input.c
 ├── test_helpers.h
-└── test_cli.sh
+├── test_input.c
+├── test_input_read.c
+├── test_cli.sh
+└── test_resources.sh
 ```
 
 - `calculator` testleri dört işlemi ve hesaplama hata durumlarını doğrular.
 - `input` testleri geçerli ve geçersiz sayı, işlem ve devam seçimi girdilerini
-  doğrular.
+  doğrular; `test_input_read.c` girdi satırı okuma hata durumlarını doğrular.
+- `fake_runtime.c`, kaynak hata yollarını sınamak için `getline` ve `free`
+  işlevleri için test dikişlerini sağlar.
 - `test_cli.sh`, tek işlem ve etkileşimli mod akışlarını; çıktılarını ve
-  çıkış kodlarını doğrular.
+  çıkış kodlarını doğrular; `test_resources.sh`, kaynak serbest bırakma
+  davranışını hata enjeksiyonuyla doğrular.
 - `double` sonuçları uygun bir toleransla karşılaştırılır.
 - Testlerin başarısızlık durumunda sıfırdan farklı bir çıkış kodu üretmesi
   gerekir.
@@ -271,4 +277,3 @@ Girdi ayrıştırma fonksiyonları terminal etkileşiminden bağımsız olarak
 doğrudan test edilecektir.
 
 **Durum:** Karar verildi.
-<!-- calc fix -->
