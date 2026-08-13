@@ -153,43 +153,63 @@ static bool test_line_04(const char *test_id)
 
 static bool test_line_05(const char *test_id)
 {
-    char *sentinel_buf = NULL;
-    size_t sentinel_cap = 0;
+    FILE *buffer_null_stream = tmpfile();
+    FILE *capacity_null_stream = tmpfile();
+    char *stream_null_buffer = malloc(1);
+    char *stream_null_original = stream_null_buffer;
+    size_t stream_null_capacity = 1;
+    char *capacity_null_buffer = malloc(1);
+    char *capacity_null_original = capacity_null_buffer;
+    size_t capacity_null_capacity = 1;
+    size_t buffer_null_capacity = 23;
+    bool ok = buffer_null_stream != NULL && capacity_null_stream != NULL &&
+              stream_null_buffer != NULL && capacity_null_buffer != NULL;
 
-    // stream NULL; buffer and capacity non-NULL with sentinel values
-    reset_fake(FAKE_GETLINE_SUCCESS);
-    enum InputStatus s1 = read_line(NULL, &sentinel_buf, &sentinel_cap);
-    bool ok = test_expect_input_status_equal(test_id,
-                                             INPUT_STATUS_INVALID_ARGUMENT,
-                                             s1);
-    ok = ok && (sentinel_buf == NULL);
-    ok = ok && (sentinel_cap == 0);
-    ok = ok && (call_counter == 0);
+    if (!ok) {
+        free(stream_null_buffer);
+        free(capacity_null_buffer);
+        if (buffer_null_stream != NULL) {
+            fclose(buffer_null_stream);
+        }
+        if (capacity_null_stream != NULL) {
+            fclose(capacity_null_stream);
+        }
+        return false;
+    }
 
-    // buffer NULL; stream and capacity non-NULL with sentinel
-    char *sentinel_buf2 = NULL;
-    size_t sentinel_cap2 = 0;
     reset_fake(FAKE_GETLINE_SUCCESS);
-    enum InputStatus s2 = read_line(tmpfile(), NULL, &sentinel_cap2);
-    ok = test_expect_input_status_equal(test_id,
-                                        INPUT_STATUS_INVALID_ARGUMENT,
-                                        s2);
-    ok = ok && (sentinel_buf2 == NULL);
-    ok = ok && (sentinel_cap2 == 0);
-    ok = ok && (call_counter == 0);
+    enum InputStatus stream_null_status =
+        read_line(NULL, &stream_null_buffer, &stream_null_capacity);
+    ok = ok && test_expect_input_status_equal(test_id,
+                                               INPUT_STATUS_INVALID_ARGUMENT,
+                                               stream_null_status);
+    ok = ok && stream_null_buffer == stream_null_original;
+    ok = ok && stream_null_capacity == 1;
+    ok = ok && call_counter == 0;
+    free(stream_null_buffer);
 
-    // capacity NULL; stream and buffer non-NULL with sentinel
-    FILE *tmp = tmpfile();
-    char *sentinel_buf3 = NULL;
     reset_fake(FAKE_GETLINE_SUCCESS);
-    enum InputStatus s3 = read_line(tmp, &sentinel_buf3, NULL);
-    bool ok3 = test_expect_input_status_equal(test_id,
-                                              INPUT_STATUS_INVALID_ARGUMENT,
-                                              s3);
-    ok = ok && ok3;
-    ok = ok && (sentinel_buf3 == NULL);
-    ok = ok && (call_counter == 0);
-    fclose(tmp);
+    enum InputStatus buffer_null_status =
+        read_line(buffer_null_stream, NULL, &buffer_null_capacity);
+    ok = ok && test_expect_input_status_equal(test_id,
+                                               INPUT_STATUS_INVALID_ARGUMENT,
+                                               buffer_null_status);
+    ok = ok && buffer_null_capacity == 23;
+    ok = ok && call_counter == 0;
+
+    reset_fake(FAKE_GETLINE_SUCCESS);
+    enum InputStatus capacity_null_status =
+        read_line(capacity_null_stream, &capacity_null_buffer, NULL);
+    ok = ok && test_expect_input_status_equal(test_id,
+                                               INPUT_STATUS_INVALID_ARGUMENT,
+                                               capacity_null_status);
+    ok = ok && capacity_null_buffer == capacity_null_original;
+    ok = ok && capacity_null_capacity == 1;
+    ok = ok && call_counter == 0;
+    free(capacity_null_buffer);
+
+    fclose(buffer_null_stream);
+    fclose(capacity_null_stream);
     return ok;
 }
 

@@ -32,7 +32,7 @@ void test_free(void *pointer)
     if (log_path) {
         FILE *f = fopen(log_path, "a");
         if (f) {
-            fprintf(f, "free\n");
+            fprintf(f, "%s\n", pointer != NULL ? "free" : "free-null");
             fclose(f);
         }
     }
