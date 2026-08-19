@@ -265,6 +265,49 @@ static bool test_dynarr_16(const char *test_id)
     return test_expect_int_equal(test_id, 1, arr.data[0]);
 }
 
+static bool test_dynarr_17(const char *test_id)
+{
+    struct DynamicArray arr;
+    dynamic_array_init(&arr, 4);
+    dynamic_array_push_back(&arr, 1);
+    dynamic_array_push_back(&arr, 2);
+
+    dynamic_array_free(&arr);
+
+    if (arr.data != NULL)
+    {
+        fprintf(stderr, "%s FAILED: data NULL olmali\n", test_id);
+        return false;
+    }
+    if (!test_expect_size_equal(test_id, 0, arr.size))
+    {
+        return false;
+    }
+    return test_expect_size_equal(test_id, 0, arr.capacity);
+}
+
+static bool test_dynarr_18(const char *test_id)
+{
+    struct DynamicArray arr;
+    dynamic_array_init(&arr, 0);
+
+    dynamic_array_free(&arr);
+
+    if (arr.data != NULL)
+    {
+        fprintf(stderr, "%s FAILED: data NULL olmali\n", test_id);
+        return false;
+    }
+    return test_expect_size_equal(test_id, 0, arr.capacity);
+}
+
+static bool test_dynarr_19(const char *test_id)
+{
+    (void)test_id;
+    dynamic_array_free(NULL);
+    return true;
+}
+
 int main(void)
 {
     const struct TestCase tests[] = {
@@ -284,6 +327,9 @@ int main(void)
         {"DYNARR-14", test_dynarr_14},
         {"DYNARR-15", test_dynarr_15},
         {"DYNARR-16", test_dynarr_16},
+        {"DYNARR-17", test_dynarr_17},
+        {"DYNARR-18", test_dynarr_18},
+        {"DYNARR-19", test_dynarr_19},
     };
 
     return test_run_cases(tests, sizeof(tests) / sizeof(tests[0]));
