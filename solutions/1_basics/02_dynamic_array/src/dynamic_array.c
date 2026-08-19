@@ -105,3 +105,16 @@ size_t dynamic_array_size(const struct DynamicArray *arr)
 
     return arr->size;
 }
+
+void dynamic_array_free(struct DynamicArray *arr)
+{
+    if (arr == NULL)
+    {
+        return;
+    }
+
+    free(arr->data);
+    arr->data = NULL;
+    arr->size = 0;
+    arr->capacity = 0;
+}
