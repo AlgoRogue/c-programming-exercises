@@ -192,4 +192,3 @@ int main(void)
 
     return test_run_cases(tests, sizeof(tests) / sizeof(tests[0]));
 }
-/* calc fix */

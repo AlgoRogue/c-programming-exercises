@@ -13,6 +13,10 @@ INPUT_TEST_SRCS = tests/test_input.c src/input.c
 INPUT_READ_TEST_TARGET = $(BUILD_DIR)/test_input_read
 INPUT_READ_TEST_SRCS = tests/test_input_read.c src/input.c
 
+CALCULATOR_HEADERS = include/calculator.h
+INPUT_HEADERS = include/input.h $(CALCULATOR_HEADERS)
+TEST_HEADERS = tests/test_helpers.h
+
 APP_TARGET = ../../../build/solutions/1_basics/01_calculator/calc
 APP_SRCS = src/main.c src/calculator.c src/input.c
 FAULT_MAIN_OBJ = $(BUILD_DIR)/main_fault.o
@@ -24,28 +28,26 @@ calc: $(APP_TARGET)
 test-cli: $(APP_TARGET)
 	sh tests/test_cli.sh "$(APP_TARGET)"
 
-$(APP_TARGET): $(APP_SRCS)
+$(APP_TARGET): $(APP_SRCS) $(INPUT_HEADERS)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(APP_SRCS) -o $(APP_TARGET) $(LDFLAGS)
 
 # Varsayılan Hedef
 all: test
 
-test-calculator:
+test-calculator: $(TEST_SRCS) $(CALCULATOR_HEADERS) $(TEST_HEADERS)
 	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) $(TEST_SRCS) -o $(TEST_TARGET) $(LDFLAGS)
 	@echo "--- Testler Çalıştırılıyor ---"
 	$(TEST_TARGET)
+
+test-input: $(INPUT_TEST_SRCS) $(INPUT_HEADERS) $(TEST_HEADERS)
+	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) $(INPUT_TEST_SRCS) -o $(INPUT_TEST_TARGET) $(LDFLAGS)
 	@echo "--- Input Testleri Çalıştırılıyor ---"
 	$(INPUT_TEST_TARGET)
 
-test-input:
-	$(CC) $(CFLAGS) $(INPUT_TEST_SRCS) -o $(INPUT_TEST_TARGET) $(LDFLAGS)
-	@echo "--- Input Testleri Çalıştırılıyor ---"
-	$(INPUT_TEST_TARGET)
-
-test-input-read: $(INPUT_READ_TEST_SRCS)
+test-input-read: $(INPUT_READ_TEST_SRCS) $(INPUT_HEADERS) $(TEST_HEADERS)
 	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) -Dgetline=test_getline $(INPUT_READ_TEST_SRCS) \
 	    -o $(INPUT_READ_TEST_TARGET) $(LDFLAGS)
@@ -55,15 +57,15 @@ test-input-read: $(INPUT_READ_TEST_SRCS)
 test: test-calculator test-input test-input-read test-cli test-resources
 
 
-$(FAULT_MAIN_OBJ): src/main.c
+$(FAULT_MAIN_OBJ): src/main.c $(INPUT_HEADERS)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -Dfree=test_free -c src/main.c -o $(FAULT_MAIN_OBJ)
 
-$(FAULT_INPUT_OBJ): src/input.c
+$(FAULT_INPUT_OBJ): src/input.c $(INPUT_HEADERS)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -Dgetline=test_getline -c src/input.c -o $(FAULT_INPUT_OBJ)
 
-$(FAULT_TARGET): $(FAULT_MAIN_OBJ) $(FAULT_INPUT_OBJ) src/calculator.c tests/fake_runtime.c
+$(FAULT_TARGET): $(FAULT_MAIN_OBJ) $(FAULT_INPUT_OBJ) src/calculator.c tests/fake_runtime.c $(CALCULATOR_HEADERS)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(FAULT_MAIN_OBJ) $(FAULT_INPUT_OBJ) src/calculator.c tests/fake_runtime.c -o $(FAULT_TARGET) $(LDFLAGS)
 
