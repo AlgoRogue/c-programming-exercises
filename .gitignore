@@ -55,3 +55,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# IDE cache files
+.vscode/
+
+# Learning cache files
+learning-context/
